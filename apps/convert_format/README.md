@@ -6,7 +6,7 @@ Load a `pegasus` *MultimodalData* object as input, and convert it to *anndata* i
 
 Usage:
 ```
-singularity exec -B ... robust-sc.sif python3 zarr2h5ad.py /path/to/input/file/name /path/to/output/file/name
+singularity exec -B ... robust-sc.sif python3 pegasus2anndata.py /path/to/input/file/name /path/to/output/file/name
 ```
 
 The output `h5ad` file contains an *anndata* with one or two associated matrices, according to the *current matrix* in pegasus *MultimodalData* object:

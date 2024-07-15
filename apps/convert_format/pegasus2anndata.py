@@ -1,6 +1,6 @@
 """
-Load a zarr/zarr.zip file as input, and convert it to h5ad format.
-Usage: python3 zarr2h5ad.py /path/to/input/file/name /path/to/output/file/name
+Load a Pegasus MultimodalData file as input, and convert it to anndata in h5ad format.
+Usage: python3 pegasus2anndata.py /path/to/input/file/name /path/to/output/file/name
 Author: Haoliang Xue
 """
 
