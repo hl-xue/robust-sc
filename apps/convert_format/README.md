@@ -11,6 +11,7 @@ singularity exec -B ... robust-sc.sif python3 zarr2h5ad.py /path/to/input/file/n
 
 The output `h5ad` file contains an anndata with one or two associated matrices, according to the current matrix in `pegasus MultimodalData` object:
 - the current matrix (e.g., `counts.log_norm`) is binded to `.X`;
-- the precedent matrix (e.g., `counts`) is binded to `.raw.X`.
+- the precedent matrix (e.g., `counts`) is binded to `.raw.X`;
+- if the precedent matrix does not exist, put it as `None`.
 
 The precedent matrix is determined by the delimiter `.`, see [PegasusIO GitHub Page](https://github.com/lilab-bcb/pegasusio/blob/master/pegasusio/unimodal_data.py) line 597-637.
