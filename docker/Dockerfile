@@ -10,7 +10,5 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 	&& rm -f ./miniconda.sh \
 	&& /opt/conda/bin/conda init bash
 ENV PATH=/opt/conda/bin:$PATH
-RUN conda install -y conda-forge::r-base=4.4.1 conda-forge::r-stringr \ # base
-		     bioconda::bioconductor-singlecellexperiment bioconda::bioconductor-dropletutils \ # SingleCellExperiment
-		     conda-forge::r-seurat conda-forge::r-hdf5r conda-forge::r-seuratobject conda-forge::r-matrix=1.6.3 \ # Seurat
-		     bioconda::bioconductor-zellkonverter # convert format
+RUN conda install -y conda-forge::r-base conda-forge::python conda-forge::r-stringr conda-forge::r-devtools bioconda::bioconductor-singlecellexperiment bioconda::bioconductor-dropletutils conda-forge::r-seurat conda-forge::r-hdf5r conda-forge::r-seuratobject conda-forge::r-matrix conda-forge::scanpy bioconda::pegasuspy bioconda::pegasusio bioconda::bioconductor-zellkonverter \
+	&& R -e 'devtools::install_github("JSB-UCLA/scDEED")'
