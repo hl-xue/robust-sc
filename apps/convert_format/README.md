@@ -13,4 +13,4 @@ The output `h5ad` file contains an anndata with one or two associated matrices, 
 - the current matrix (e.g., `counts.log_norm`) is binded to `.X`;
 - the precedent matrix (e.g., `counts`) is binded to `.raw.X`.
 
-The precedent matrix is determined by the deliminator `.`, see [PegasusIO GitHub Page](https://github.com/lilab-bcb/pegasusio/blob/master/pegasusio/unimodal_data.py) line 597-637.
+The precedent matrix is determined by the delimiter `.`, see [PegasusIO GitHub Page](https://github.com/lilab-bcb/pegasusio/blob/master/pegasusio/unimodal_data.py) line 597-637.
