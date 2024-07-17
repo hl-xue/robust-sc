@@ -25,17 +25,23 @@ def Convert(data_src):
             raw_key = '.'.join(components[:-1])
             if raw_key not in matrix_keys:
                 raw_key = None
-    layers = {}
-    for matkey in matrix_keys:
-        layers[matkey] = data_src.get_matrix(matkey)
     if raw_key != None:
         raw = anndata.AnnData(X = data_src.get_matrix(raw_key), dtype = data_src.get_matrix(raw_key).dtype, var = data_src.var[["featureid"]])
     else:
         raw = None
-    return anndata.AnnData(X = data_src.get_matrix(X_key), dtype = data_src.get_matrix(X_key).dtype,
+    layers = {matkey: data_src.get_matrix(matkey) for matkey in matrix_keys}
+    return anndata.AnnData(X = layers[X_key], dtype = layers[X_key].dtype,
                            obs = data_src.obs, var = data_src.var, uns = data_src.uns,
                            obsm = data_src.obsm, varm = data_src.varm, obsp = data_src.obsp, varp = data_src.varp,
                            layers = layers, raw = raw)
+
+
+def Test(converted_data, src_data):
+    ref_data = src_data.to_anndata()
+    assert (converted_data.X != ref_data.X).sum() == 0
+    assert (converted_data.raw.X != ref_data.raw.X).sum() == 0
+    assert (converted_data.obs != ref_data.obs).sum().sum() == 0
+    assert (converted_data.var != ref_data.var).sum().sum() == 0
 
 
 if __name__ == "__main__":
@@ -57,9 +63,10 @@ if __name__ == "__main__":
     # Load input file
     data = pg.read_input(infile)
     print("* Loaded object:\n", data, sep="", file=sys.stderr)
-    print("* Example counts in current matrix:", data.X[data.X > 10], file=sys.stderr)
-    gc.collect()
 
-    # Write output file
-    Convert(data).write_h5ad(outfile)
-    print("\033[92m* Conversion complete!", file=sys.stderr)
+    # Write output file and test
+    adata = Convert(data)
+    gc.collect()
+    adata.write_h5ad(outfile)
+    Test(adata, data)
+    print("\033[92m* Conversion complete!\033[0m", file=sys.stderr)
