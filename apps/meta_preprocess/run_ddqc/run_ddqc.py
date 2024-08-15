@@ -13,12 +13,12 @@ import argparse
 if __name__ == "__main__":
     # Argument parsing
     parser = argparse.ArgumentParser(description="Sample quality control using ddqc.")
-    parser.add_argument("input", help="input file (.h5, .zarr, .zarr.zip, .h5ad, .h5ad.zip, matrix folder).")
-    parser.add_argument("output", help="output folder.")
-    parser.add_argument("-u", "--min_umi_per_cell", default=0, type=int, help="minimum UMI count per cell [INT].")
-    parser.add_argument("-g", "--min_gene_per_cell", default=0, type=int, help="minimum expressed gene number per cell [INT].")
-    parser.add_argument("-M", "--max_mito_per_cell", default=100, type=int, help="maximum mitochondrial gene UMI percentage per cell [INT].")
-    parser.add_argument("-s", "--sample_name", default="sample", type=str, help="sample name to write in output folder [STR].")
+    parser.add_argument("input", help="input file (.h5, .zarr, .zarr.zip, .h5ad, .h5ad.zip, matrix folder)")
+    parser.add_argument("output", help="output folder")
+    parser.add_argument("-u", "--min_umi_per_cell", default=0, type=int, help="minimum UMI count per cell [INT]")
+    parser.add_argument("-g", "--min_gene_per_cell", default=0, type=int, help="minimum expressed gene number per cell [INT]")
+    parser.add_argument("-M", "--max_mito_per_cell", default=100, type=int, help="maximum mitochondrial gene UMI percentage per cell [INT]")
+    parser.add_argument("-s", "--sample_name", default="sample", type=str, help="sample name to write in output folder [STR]")
     args = vars(parser.parse_args())
     for k, v in args.items():
         print(k, v, file=sys.stderr)
