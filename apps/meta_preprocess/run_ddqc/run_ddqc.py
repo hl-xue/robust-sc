@@ -21,7 +21,7 @@ if __name__ == "__main__":
     parser.add_argument("-s", "--sample_name", default="sample", type=str, help="sample name to write in output folder [STR]")
     args = vars(parser.parse_args())
     for k, v in args.items():
-        print(k, v, file=sys.stderr)
+        print(f"{k}: {v}", file=sys.stderr)
     print("", file=sys.stderr)
 
     # Check input folder and create output folder if needed
@@ -36,7 +36,8 @@ if __name__ == "__main__":
 
     # Stop if output file already exists, to avoid accidental overwriting
     if os.path.exists(f"{args['output']}{args['sample_name']}_filtered.zarr.zip"):
-        print(f"\033[91m* ERROR: Output file already exists. Please manually remove it to avoid accidental overwriting.\033[0m",
+        print(f"\033[91m* ERROR: Output file already exists." + 
+              "         Please manually remove it to avoid accidental overwriting.\033[0m",
               file=sys.stderr)
         assert False
 
