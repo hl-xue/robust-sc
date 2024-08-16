@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
     # Argument parsing
-    parser = argparse.ArgumentParser(description="Sample quality control using ddqc.")
+    parser = argparse.ArgumentParser(description="Sample preprocessing till the clustering step.")
     parser.add_argument("input", help="input file (.h5, .zarr, .zarr.zip, .h5ad, .h5ad.zip, matrix folder)")
     parser.add_argument("output", help="output folder")
     parser.add_argument("-p", "--initial_pc_num", default=100, type=int, help="initial PC number to reduce [INT]")

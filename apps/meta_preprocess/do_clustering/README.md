@@ -6,19 +6,20 @@ The publication of the `Pegasus` package can be found [here](https://doi.org/10.
 
 To run the analysis, please do:
 ```bash
-python3 run_till_clustering.py [-h] [-p INITIAL_PC_NUM] [-r LEIDEN_RESOLUTION] [-c CLUSTERING_COLNAME] [-s SAMPLE_NAME] input output
+python3 run_till_clustering.py [-h] [-p INITIAL_PC_NUM] [-r LEIDEN_RESOLUTION] [-c CLUSTERING_COLNAME] [-s OUT_SAMPLE_LABEL] [-g] input output
 ```
 ```
 positional arguments:
-  input                 input file (.h5, .zarr, .zarr.zip, .h5ad, .h5ad.zip, matrix folder).
-  output                output folder.
+  input                 input file (.h5, .zarr, .zarr.zip, .h5ad, .h5ad.zip, matrix folder)
+  output                output folder
 
 options:
-  -h, --help                                                          show this help message and exit.
-  -p INITIAL_PC_NUM, --initial_pc_num INITIAL_PC_NUM                  initial PC number to reduce [INT].
-  -r LEIDEN_RESOLUTION, --leiden_resolution LEIDEN_RESOLUTION         resolution for leiden clustering [FLOAT].
-  -c CLUSTERING_COLNAME, --clustering_colname CLUSTERING_COLNAME      column name of clustering results [STR].
-  -s SAMPLE_NAME, --sample_name SAMPLE_NAME                           sample name to write in output folder [STR].
+  -h, --help                                                        show this help message and exit.
+  -p INITIAL_PC_NUM, --initial_pc_num INITIAL_PC_NUM                initial PC number to reduce [INT].
+  -r LEIDEN_RESOLUTION, --leiden_resolution LEIDEN_RESOLUTION       resolution for leiden clustering [FLOAT].
+  -c CLUSTERING_COLNAME, --clustering_colname CLUSTERING_COLNAME    column name of clustering results [STR].
+  -s OUT_SAMPLE_LABEL, --out_sample_label OUT_SAMPLE_LABEL          sample name as output file name prefix [STR].
+  -g, --regress_cellcycle                                           whether to regress cell cycle.
 ```
 
 Three output files will be generated in the indicated output folder:
