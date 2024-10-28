@@ -1,6 +1,7 @@
 """
 Load a Pegasus MultimodalData file as input, and convert it to anndata in h5ad format.
 Usage: python3 pegasus2anndata.py /path/to/input/file/name /path/to/output/file/name
+
 Author: Haoliang Xue
 """
 

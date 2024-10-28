@@ -1,0 +1,4 @@
+test.bsub
+*.[oe][0-9]*
+scratch.ipynb
+.ipynb_checkpoints/

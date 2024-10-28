@@ -53,12 +53,14 @@ if __name__ == "__main__":
     pg.log_norm(data)
     pg.highly_variable_features(data)
     pg.hvfplot(data, top_n=50, panel_size=(9, 5), dpi=600)
-    plt.savefig(f"{args['output']}{args['out_sample_label']}_HVFplot.pdf", bbox_inches="tight", facecolor="white")
+    plt.savefig(f"{args['output']}{args['out_sample_label']}_HVFplot.pdf",
+                bbox_inches="tight", facecolor="white")
     plt.close()
     ## PCA
     pg.pca(data, n_components=args["initial_pc_num"], random_state=0)
     pg.elbowplot(data, rep="pca", panel_size=(5, 3), dpi=600)
-    plt.savefig(f"{args['output']}{args['out_sample_label']}_elbowPlot.pdf", bbox_inches="tight", facecolor="white")
+    plt.savefig(f"{args['output']}{args['out_sample_label']}_elbowPlot.pdf",
+                bbox_inches="tight", facecolor="white")
     plt.close()
     ncomps = data.uns["pca_ncomps"]
     if ncomps == args["initial_pc_num"]:
@@ -75,7 +77,8 @@ if __name__ == "__main__":
         pca_key = "pca"
     ## Neighbourhood graph, clustering and UMAP
     pg.neighbors(data, K=100, rep=pca_key, n_comps=ncomps, random_state=0)
-    pg.leiden(data, rep=pca_key, resolution=args["leiden_resolution"], random_state=0, class_label=args["clustering_colname"])
+    pg.leiden(data, rep=pca_key, resolution=args["leiden_resolution"],
+              random_state=0, class_label=args["clustering_colname"])
 
     # Write output data
     pg.write_output(data, f"{args['output']}{args['out_sample_label']}_tillClustering.zarr.zip")

@@ -5,9 +5,9 @@ warnings.simplefilter(action="ignore", category=FutureWarning)
 
 import sys
 import os
+import argparse
 import pegasus as pg
 import ddqc
-import argparse
 
 
 if __name__ == "__main__":
