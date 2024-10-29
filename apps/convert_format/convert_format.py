@@ -52,19 +52,25 @@ if __name__ == "__main__":
 
     # Check input folder and create output folder if needed
     if format not in ["", ".h5", ".h5ad"]:
-        print(f"\033[91m* ERROR: Unknown format {format} to convert, only allows h5ad, h5 or directory.\033[0m", file=sys.stderr)
+        print(f"\033[91m* ERROR: unknown format {format} to convert, only allows h5ad, h5 or directory.\033[0m",
+              file=sys.stderr)
         sys.exit(1)
     if not(args["input"].endswith(".zarr") or args["input"].endswith(".zarr.zip")):
-        print(f"\033[91m* ERROR: Input file format only allows zarr or zarr.zip.\033[0m", file=sys.stderr)
+        print(f"\033[91m* ERROR: input file format only allows zarr or zarr.zip.\033[0m",
+              file=sys.stderr)
         sys.exit(1)
     if not os.path.isfile(args["input"]):
-        print(f"\033[91m* ERROR: Input file {args['input']} does not exist.\033[0m", file=sys.stderr)
+        print(f"\033[91m* ERROR: input file {args['input']} does not exist.\033[0m",
+              file=sys.stderr)
         sys.exit(1)
     if not os.path.isdir(os.path.dirname(args["output"])):
-        print(f"\033[91m* ERROR: Output folder {os.path.dirname(args['output'])} does not exist.\033[0m", file=sys.stderr)
+        print(f"\033[91m* ERROR: output folder {os.path.dirname(args['output'])} does not exist.\033[0m",
+              file=sys.stderr)
         sys.exit(1)
     if os.path.exists(args["output"]):
-        print(f"\033[91m* ERROR: Output file already exists. Please manually remove it to avoid accidental overwriting.\033[0m", file=sys.stderr)
+        print("\033[91m* ERROR: output file already exists.\n" + 
+              "Please manually remove it to avoid accidental overwriting.\033[0m",
+              file=sys.stderr)
         sys.exit(1)
     print(f"* Converting to {format}.", file=sys.stderr)
 
@@ -88,8 +94,17 @@ if __name__ == "__main__":
         print("* Matrix value extract for .X:", adata.X[adata.X > 5], file=sys.stderr)
         if adata.raw is not None:
             print("* Matrix value extract for .raw.X:", adata.raw.X[adata.raw.X > 5], file=sys.stderr)
+            print("* Matrix value extract for .layers['raw.X']:", adata.layers["raw.X"][adata.layers["raw.X"] > 5],
+                  file=sys.stderr)
     else: # .h5 or directory
-        data.select_matrix("counts")
+        matrix_keys = data.list_keys("matrix")
+        if "raw.X" in matrix_keys:
+            data.select_matrix("raw.X")
+        elif "counts" in matrix_keys:
+            data.select_matrix("counts")
+        else:
+            print(f"\033[93m* WARNING: neither raw.X nor counts exists as matrix key, keeping current matrix.\033[0m",
+                  file=sys.stderr)
         pg.write_output(data, args["output"])
         print("* Matrix value extract:", data.X[data.X > 5], file=sys.stderr)
 
