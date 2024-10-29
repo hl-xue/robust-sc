@@ -28,8 +28,9 @@ if __name__ == "__main__":
 
     # Load input file
     data = pg.read_input(infile)
-    print("* Loaded object:\n", data, sep="", file=sys.stderr)
     data.select_matrix("counts")
+    print("* Loaded object:\n", data, sep="", file=sys.stderr)
+    print("* Count samples:", data.X[data.X > 5], file=sys.stderr)
     pg.write_output(data, outfile, file_type="h5")
-    
+
     print("\033[92m* Conversion complete!\033[0m", file=sys.stderr)

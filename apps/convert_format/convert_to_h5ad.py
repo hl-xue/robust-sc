@@ -66,12 +66,16 @@ if __name__ == "__main__":
 
     # Load input file
     data = pg.read_input(infile)
+    data.select_matrix("counts")
     print("* Loaded object:\n", data, sep="", file=sys.stderr)
 
     # Write output file and test
     adata = Convert(data)
-    gc.collect()
     adata.write_h5ad(outfile)
+
+    print("* Count samples:", adata.X[adata.X > 5], file=sys.stderr)
+    gc.collect()
+    
     Test(adata, data)
 
     print("\033[92m* Conversion complete!\033[0m", file=sys.stderr)
