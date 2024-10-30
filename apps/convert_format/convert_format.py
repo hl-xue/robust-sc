@@ -42,7 +42,7 @@ if __name__ == "__main__":
     # Argument parsing
     parser = argparse.ArgumentParser(description="Convert MultimodalData data structure (used in Pegasus) to: " +
                                                  "matrix folder, general h5 file or anndata in h5ad.")
-    parser.add_argument("input", help="input file (.zarr, .zarr.zip)")
+    parser.add_argument("input", help="input file")
     parser.add_argument("output", help="output file (directory, .h5, .h5ad)")
     args = vars(parser.parse_args())
     _, format = os.path.splitext(args["output"])
@@ -53,10 +53,6 @@ if __name__ == "__main__":
     # Check input folder and create output folder if needed
     if format not in ["", ".h5", ".h5ad"]:
         print(f"\033[91m* ERROR: unknown format {format} to convert, only allows h5ad, h5 or directory.\033[0m",
-              file=sys.stderr)
-        sys.exit(1)
-    if not(args["input"].endswith(".zarr") or args["input"].endswith(".zarr.zip")):
-        print(f"\033[91m* ERROR: input file format only allows zarr or zarr.zip.\033[0m",
               file=sys.stderr)
         sys.exit(1)
     if not os.path.isfile(args["input"]):
