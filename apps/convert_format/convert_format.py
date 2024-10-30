@@ -46,12 +46,14 @@ if __name__ == "__main__":
     parser.add_argument("output", help="output file (directory, .h5, .h5ad)")
     args = vars(parser.parse_args())
     _, format = os.path.splitext(args["output"])
+    if format == "":
+        format = "matrix folder"
     for k, v in args.items():
         print(f"{k}: {v}", file=sys.stderr)
     print("", file=sys.stderr)
 
     # Check input folder and create output folder if needed
-    if format not in ["", ".h5", ".h5ad"]:
+    if format not in ["matrix folder", ".h5", ".h5ad"]:
         print(f"\033[91m* ERROR: unknown format {format} to convert, only allows h5ad, h5 or directory.\033[0m",
               file=sys.stderr)
         sys.exit(1)
