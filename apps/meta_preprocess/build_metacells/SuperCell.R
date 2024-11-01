@@ -5,9 +5,9 @@ suppressPackageStartupMessages(library(argparse))
 parser <- ArgumentParser(description="Metacell construction.")
 parser$add_argument("input", nargs=1, help="input file in .h5 format")
 parser$add_argument("output", nargs=1, help="output table in .csv format")
-parser$add_argument("-n", "--num.hvg", default=1000, type="integer", help="Number of HVGs to be used [1000]")
-parser$add_argument("-p", "--num.pc", default=50, type="integer", help="Number of PCs to be used [50]")
-parser$add_argument("-g", "--gamma", default=15, type="double", help="Graining level [15]")
+parser$add_argument("-n", "--num.hvg", default=1000, type="integer", help="number of HVGs to be used [1000]")
+parser$add_argument("-p", "--num.pc", default=50, type="integer", help="number of PCs to be used [50]")
+parser$add_argument("-g", "--gamma", default=15, type="double", help="graining level [15]")
 args <- parser$parse_args()
 
 for (arg in c("input", "output", "num.hvg", "num.pc", "gamma")) {
