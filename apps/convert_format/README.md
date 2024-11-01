@@ -1,9 +1,11 @@
 # Format Conversion for Single-cell RNA-seq Object
 
 Load a `pegasus` *MultimodalData* object as input, and convert it to:
-- sparse count matrix in the given folder,
 - `.h5` file, 
+- sparse count matrix in the given folder,
 - *AnnData* object stored in `.h5ad` format.
+
+The `.h5` option is more recommended than sparse count matrix, for its better format compability to different packages.
 
 Usage:
 ```
