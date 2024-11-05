@@ -67,7 +67,7 @@ if __name__ == "__main__":
         sys.exit(1)
     if os.path.exists(args["output"]):
         print("\033[91m* ERROR: output file already exists.\n" + 
-              "Please manually remove it to avoid accidental overwriting.\033[0m",
+              "         Please manually remove it to avoid accidental overwriting.\033[0m",
               file=sys.stderr)
         sys.exit(1)
     print(f"* Converting to {format}.", file=sys.stderr)

@@ -1,13 +1,6 @@
-import warnings
-from numba.core.errors import NumbaDeprecationWarning
-warnings.simplefilter("ignore", category=NumbaDeprecationWarning)
-warnings.simplefilter(action="ignore", category=FutureWarning)
-
 import os
 import sys
 import argparse
-import pegasus as pg
-import matplotlib.pyplot as plt
 
 
 if __name__ == "__main__":
@@ -27,7 +20,7 @@ if __name__ == "__main__":
 
     # Check input folder and create output folder if needed
     if not os.path.exists(args["input"]):
-        print(f"\033[91m* ERROR: Input file {args['input']} does not exist.\033[0m", file=sys.stderr)
+        print(f"\033[91m* ERROR: input file {args['input']} does not exist.\033[0m", file=sys.stderr)
         assert False
     if not args["output"].endswith("/"):
         args["output"] = f"{args['output']}/"
@@ -37,10 +30,18 @@ if __name__ == "__main__":
 
     # Stop if output file already exists, to avoid accidental overwriting
     if os.path.exists(f"{args['output']}{args['out_sample_label']}_tillClustering.zarr.zip"):
-        print(f"\033[91m* ERROR: Output file already exists.\n" + 
+        print(f"\033[91m* ERROR: output file already exists.\n" + 
               "         Please manually remove it to avoid accidental overwriting.\033[0m",
               file=sys.stderr)
         assert False
+
+    import warnings
+    from numba.core.errors import NumbaDeprecationWarning
+    warnings.simplefilter("ignore", category=NumbaDeprecationWarning)
+    warnings.simplefilter(action="ignore", category=FutureWarning)
+    
+    import pegasus as pg
+    import matplotlib.pyplot as plt
 
     # Load data and print to check
     data = pg.read_input(args["input"])
