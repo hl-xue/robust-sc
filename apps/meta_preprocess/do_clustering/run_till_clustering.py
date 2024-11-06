@@ -26,7 +26,7 @@ if __name__ == "__main__":
         args["output"] = f"{args['output']}/"
     if not os.path.exists(args["output"]):
         print(f"* Creating output folder {args['output']}...", file=sys.stderr)
-        os.mkdir(args["output"])
+        os.makedirs(args["output"])
 
     # Stop if output file already exists, to avoid accidental overwriting
     if os.path.exists(f"{args['output']}{args['out_sample_label']}_tillClustering.zarr.zip"):
