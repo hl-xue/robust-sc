@@ -9,6 +9,7 @@ if __name__ == "__main__":
     parser.add_argument("input", help="input file (.h5, .zarr, .zarr.zip, .h5ad, .h5ad.zip, matrix folder)")
     parser.add_argument("output", help="output folder")
     parser.add_argument("-p", "--initial_pc_num", default=100, type=int, help="initial PC number to reduce [INT]")
+    parser.add_argument("-k", "--number_of_neighbours", default=50, type=int, help="number of neighbours in kNN [INT]")
     parser.add_argument("-r", "--leiden_resolution", default=2.0, type=float, help="resolution for leiden clustering [FLOAT]")
     parser.add_argument("-c", "--clustering_colname", default="leiden_v00", type=str, help="column name of clustering results [STR]")
     parser.add_argument("-s", "--out_sample_label", default="sample", type=str, help="sample name as output file name prefix [STR]")
@@ -35,10 +36,10 @@ if __name__ == "__main__":
               file=sys.stderr)
         assert False
 
-    import warnings
-    from numba.core.errors import NumbaDeprecationWarning
-    warnings.simplefilter("ignore", category=NumbaDeprecationWarning)
-    warnings.simplefilter(action="ignore", category=FutureWarning)
+    # import warnings
+    # from numba.core.errors import NumbaDeprecationWarning
+    # warnings.simplefilter("ignore", category=NumbaDeprecationWarning)
+    # warnings.simplefilter(action="ignore", category=FutureWarning)
     
     import pegasus as pg
     import matplotlib.pyplot as plt
@@ -77,7 +78,7 @@ if __name__ == "__main__":
     else:
         pca_key = "pca"
     ## Neighbourhood graph, clustering and UMAP
-    pg.neighbors(data, K=100, rep=pca_key, n_comps=ncomps, random_state=0)
+    pg.neighbors(data, K=args["number_of_neighbours"], rep=pca_key, n_comps=ncomps, random_state=0)
     pg.leiden(data, rep=pca_key, resolution=args["leiden_resolution"],
               random_state=0, class_label=args["clustering_colname"])
 
