@@ -27,6 +27,7 @@ if (!stringr::str_ends(args$output, ".csv")) {
 
 suppressPackageStartupMessages(library(SuperCell))
 suppressPackageStartupMessages(library(Seurat))
+suppressPackageStartupMessages(library(magrittr))
 
 sc <- Read10X_h5(h5.in) %>%
     CreateSeuratObject(names.delim = "-") %>%
