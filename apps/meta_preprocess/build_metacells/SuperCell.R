@@ -5,12 +5,12 @@ suppressPackageStartupMessages(library(argparse))
 parser <- ArgumentParser(description="Metacell construction.")
 parser$add_argument("input", nargs=1, help="input file in .h5 format")
 parser$add_argument("output", nargs=1, help="output table in .csv format")
-parser$add_argument("-n", "--num.hvg", default=1000, type="integer", help="number of HVGs to be used [1000]")
+parser$add_argument("-f", "--num.feature", default=1000, type="integer", help="number of variable features to be used [1000]")
 parser$add_argument("-p", "--num.pc", default=50, type="integer", help="number of PCs to be used [50]")
 parser$add_argument("-g", "--gamma", default=15, type="double", help="graining level [15]")
 args <- parser$parse_args()
 
-for (arg in c("input", "output", "num.hvg", "num.pc", "gamma")) {
+for (arg in c("input", "output", "num.feature", "num.pc", "gamma")) {
     cat(arg, ": ", args[[arg]], "\n", sep = "", file = stderr())
 }
 cat("\n", file = stderr())
@@ -32,7 +32,7 @@ suppressPackageStartupMessages(library(magrittr))
 sc <- Read10X_h5(args$input) %>%
     CreateSeuratObject(names.delim = "-") %>%
     NormalizeData() %>%
-    FindVariableFeatures(selection.method = "disp", nfeatures = args$num.hvg)
+    FindVariableFeatures(selection.method = "disp", nfeatures = args$num.feature)
 hvgs <- VariableFeatures(sc)
 
 mc <- SCimplify(X = GetAssayData(sc), genes.use = hvgs, gamma = args$gamma, n.pc = args$num.pc)
