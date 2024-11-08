@@ -29,7 +29,7 @@ suppressPackageStartupMessages(library(SuperCell))
 suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(magrittr))
 
-sc <- Read10X_h5(h5.in) %>%
+sc <- Read10X_h5(args["input"]) %>%
     CreateSeuratObject(names.delim = "-") %>%
     NormalizeData() %>%
     FindVariableFeatures(selection.method = "disp", nfeatures = args$num.hvg)
@@ -39,4 +39,4 @@ mc <- SCimplify(X = GetAssayData(sc), genes.use = hvgs, gamma = args$gamma, n.pc
 df.membership <- data.frame(mc$membership) %>%
     dplyr::rename(metacell = mc.membership) %>%
     tibble::rownames_to_column("barcodekey")
-write.csv(df.membership, file = csv.out, quote = FALSE, row.names = FALSE)
+write.csv(df.membership, file = args["output"], quote = FALSE, row.names = FALSE)
