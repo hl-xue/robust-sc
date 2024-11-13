@@ -4,39 +4,46 @@ suppressPackageStartupMessages(library(argparse))
 
 parser <- ArgumentParser(description="Metacell construction.")
 parser$add_argument("input", nargs=1, help="input file in .h5 format")
-parser$add_argument("output", nargs=1, help="output table in .csv format")
-parser$add_argument("-f", "--num.feature", default=1000, type="integer", help="number of variable features to be used [1000]")
-parser$add_argument("-p", "--num.pc", default=50, type="integer", help="number of PCs to be used [50]")
+parser$add_argument("out.prefix", nargs=1, help="output file prefix")
+parser$add_argument("-f", "--feature.num", default=1000, type="integer", help="number of variable features to be used [1000]")
+parser$add_argument("-p", "--pc.num", default=50, type="integer", help="number of PCs to be used [50]")
+parser$add_argument("-k", "--neighbour.num", default=5, type="integer", help="number of neighbours for k-NN [5]")
 parser$add_argument("-g", "--gamma", default=15, type="double", help="graining level [15]")
-args <- parser$parse_args()
+arg_lst <- parser$parse_args()
 
-for (arg in c("input", "output", "num.feature", "num.pc", "gamma")) {
-    cat(arg, ": ", args[[arg]], "\n", sep = "", file = stderr())
+for (arg in c("input", "out.prefix", "feature.num", "pc.num", "neighbour.num", "gamma")) {
+    cat(arg, ": ", arg_lst[[arg]], "\n", sep = "", file = stderr())
 }
 cat("\n", file = stderr())
 
-if (!file_test("-f", args$input)) {
-    stop("\033[91minput file ", args$input, " does not exist.\033[0m")
+if (!file_test("-f", arg_lst$input)) {
+    stop("\033[91minput file ", arg_lst$input, " does not exist.\033[0m")
 }
-if (file_test("-f", args$output)) {
-    stop("\033[91moutput file already exists.\nPlease manually remove it to avoid accidental overwriting.\033[0m")
-}
-if (!stringr::str_ends(args$output, ".csv")) {
-    cat("\033[93mWarning: output file", args$output, "does not have .csv extension.\033[0m\n")
+if (file_test("-f", paste0(arg_lst$out.prefix, ".csv")) || file_test("-f", paste0(arg_lst$out.prefix, ".RData"))) {
+    stop("\033[91moutput file already exists.\n       Please manually remove it to avoid accidental overwriting.\033[0m")
 }
 
 suppressPackageStartupMessages(library(SuperCell))
 suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(magrittr))
 
-sc <- Read10X_h5(args$input) %>%
+mc.smp <- Read10X_h5(arg_lst$input, use.names = FALSE) %>%
     CreateSeuratObject(names.delim = "-") %>%
     NormalizeData() %>%
-    FindVariableFeatures(selection.method = "disp", nfeatures = args$num.feature)
-hvgs <- VariableFeatures(sc)
+    GetAssayData() %>%
+    SCimplify(n.var.genes = arg_lst$hvg.num, gamma = arg_lst$gamma,
+              k.knn = arg_lst$neighbour.num, n.pc = arg_lst$pc.num,
+              do.approx = FALSE, seed = 0)
+mc.smp$sample <- supercell_assign(rep(stringr::str_remove(basename(arg_lst$input), "\\.h5"),
+                                      length(mc.smp$membership)),
+                                  mc.smp$membership)
 
-mc <- SCimplify(X = GetAssayData(sc), genes.use = hvgs, gamma = args$gamma, n.pc = args$num.pc)
-df.membership <- data.frame(mc$membership) %>%
-    dplyr::rename(metacell = mc.membership) %>%
+df.membership <- data.frame(mc.smp$membership) %>%
+    dplyr::rename(metacell = mc.smp.membership) %>%
     tibble::rownames_to_column("barcodekey")
-write.csv(df.membership, file = args$output, quote = FALSE, row.names = FALSE)
+
+write.csv(df.membership,file = paste0(arg_lst$out.prefix, ".csv"),
+          quote = FALSE, row.names = FALSE)
+save(mc.smp, file = paste0(arg_lst$out.prefix, ".RData"))
+
+cat("\033[92m* Processing complete!\n\033[0m", file = stderr())
