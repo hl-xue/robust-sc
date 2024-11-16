@@ -4,7 +4,7 @@ suppressPackageStartupMessages(library(argparse))
 
 parser <- ArgumentParser(description="Metacell construction.")
 parser$add_argument("input", nargs=1, help="input file in .h5 format")
-parser$add_argument("out.prefix", nargs=1, help="output file prefix")
+parser$add_argument("out.prefix", nargs=1, help="output file prefix for .csv and .RData files")
 parser$add_argument("-f", "--feature.num", default=1000, type="integer", help="number of variable features to be used [1000]")
 parser$add_argument("-c", "--pc.num", default=50, type="integer", help="number of principal components to be used [50]")
 parser$add_argument("-k", "--neighbour.num", default=5, type="integer", help="number of neighbours for k-NN [5]")

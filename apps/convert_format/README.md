@@ -23,3 +23,4 @@ If the output is a `.h5ad` file, it contains an *AnnData* with one or two associ
 - if `raw.X` matrix or `counts` matrix does not exist, it is assigned as `None`.
 
 The part of script for convertion to *AnnData* was adapted from lines 597-637 in [PegasusIO GitHub Page](https://github.com/lilab-bcb/pegasusio/blob/master/pegasusio/unimodal_data.py).
+Please cite their work if using this script.
